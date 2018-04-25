@@ -3,6 +3,7 @@ var postCustomer = function(req, res) {
     // Parse the VCAP Environment to get the Cloudant URL
     var vcap_env = JSON.parse(process.env.VCAP_SERVICES);
     var cloudant_url = vcap_env['cloudantNoSQLDB'][0]['url'];
+    console.log("The Cloudant URL is : %s",cloudant_url);
     
     // Connect to the pomopaycustomers DB
     var Cloudant = require('@cloudant/cloudant');
@@ -16,7 +17,7 @@ var postCustomer = function(req, res) {
     
     
     
-    res.send("Document created with _id "+idValue);
+    res.send("Document created with _id %s",idValue);
 }
 
 var getCustomer = function(req, res){
