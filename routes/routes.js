@@ -8,6 +8,11 @@ var appRouter = function(app) {
 		var customer = require("./customer.js");
 		customer.postCustomer(req, res);
 	});
+	
+	app.get("/customer", function(req, res){
+		var customer = require("./customer.js");
+		customer.getCustomer(req,res);
+	});
 }
 
 module.exports = appRouter;
