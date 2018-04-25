@@ -4,7 +4,7 @@ var appRouter = function(app) {
         res.send("Hello World");
     });
 	
-	app.get("/customer", function(req, res){
+	app.post("/customer", function(req, res){
 		var customer = require("./customer.js");
 		customer.postCustomer(req, res);
 	});

@@ -4,4 +4,4 @@ var postCustomer = function(req, res) {
 
 }
 
-module.exports = postCustomer;
+exports.postCustomer = postCustomer;
