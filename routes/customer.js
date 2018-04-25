@@ -17,7 +17,7 @@ var postCustomer = function(req, res) {
     
     
     
-    res.send("Document created with _id %s",idValue);
+    res.send("Document created with _id"+idValue);
 }
 
 var getCustomer = function(req, res){
