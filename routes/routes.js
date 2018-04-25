@@ -4,8 +4,9 @@ var appRouter = function(app) {
         res.send("Hello World");
     });
 	
-	app.get("/accounts", function(req, res){
-		require("./accounts.js")(req, res);
+	app.get("/customer", function(req, res){
+		var customer = require("./customer.js");
+		customer.postCustomer(req, res);
 	});
 }
 
