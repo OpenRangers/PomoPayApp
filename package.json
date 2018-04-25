@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/OpenRangers/PomoPayApp#readme",
   "dependencies": {
+    "@cloudant/cloudant": "^2.1.0",
+    "async": "^2.6.0",
     "body-parser": "^1.18.2"
   }
 }
