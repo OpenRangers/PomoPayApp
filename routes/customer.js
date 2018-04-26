@@ -26,9 +26,13 @@ var postCustomer = function(req, res) {
     });
     
     if(cloudantErr === null){
+		res.status(200);
+		res.contentType("application/json");
     	res.send({"status":"SUCCESS","id":cloudantDoc.id,"version":cloudantDoc.ver});
     }else{
-    	res.send({"status":"FAILURE","error":cloudantErr});	
+		res.status(404);
+		res.contentType("application/json");
+    	res.send({"status":"FAILURE","error":cloudantErr.message});	
     }
 }
 
@@ -59,8 +63,12 @@ var getCustomer = function(req, res){
 	});
 	
 	if(cloudantErr === null){
-		res.send({"status":"SUCCESS","document":{cloudantDoc}});
+		res.status(200);
+		res.contentType("application/json");
+		res.send({"status":"SUCCESS","id":cloudantDoc.id, "ver":cloudantDoc.ver});
 	}else{
+		res.status(404);
+		res.contentType("application/json");
     	res.send({"status":"FAILURE","error":cloudantErr});	
     }
 }
