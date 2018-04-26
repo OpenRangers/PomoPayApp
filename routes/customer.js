@@ -16,16 +16,17 @@ var postCustomer = function(req, res) {
     
     //  insert the incoming data into the DB
     pomopaycustomersdb.insert(req.body, function(err, data) {
-    console.log('Error:', err);
-    console.log('Data:', data);
     
     cloudantDoc = data; //store the cloudant return document.
     cloudantErr = err; // store the cloudant return error.
+
+    console.log('Error:', cloudantErr);
+    console.log('Data:', cloudantDoc);
     
     });
     
     if(cloudantErr === null){
-    	res.send({"status":"SUCCESS","id":cloudantDoc._id,"version":cloudantDoc._ver});
+    	res.send({"status":"SUCCESS","id":cloudantDoc.id,"version":cloudantDoc.ver});
     }else{
     	res.send({"status":"FAILURE","error":cloudantErr});	
     }
@@ -48,13 +49,13 @@ var getCustomer = function(req, res){
 	
 	// Read the document from the database
 	pomopaycustomersdb.get(req.params.username, function(err, data) {
-    console.log('Error:', err);
-    console.log('Data:', data);
-
+ 
     cloudantDoc = data; //store the cloudant return document.
     cloudantErr = err; // store the cloudant return error.
     
-    
+    console.log('Error:', cloudantErr);
+    console.log('Data:', cloudantDoc);
+   
 	});
 	
 	if(cloudantErr === null){
