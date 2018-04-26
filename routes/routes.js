@@ -13,6 +13,10 @@ var appRouter = function(app) {
 		var customer = require("./customer.js");
 		customer.getCustomer(req,res);
 	});
+	
+	app.get('/account', function(req, res){
+		res.send("hi this is mallika");
+	});
 }
 
 module.exports = appRouter;
