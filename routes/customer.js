@@ -28,7 +28,7 @@ var postCustomer = function(req, res) {
     if(cloudantErr === null){
 		res.status(200);
 		res.contentType("application/json");
-    	res.send({"status":"SUCCESS","id":cloudantDoc.id,"version":cloudantDoc.ver});
+    	res.send({"status":"SUCCESS","id":cloudantDoc.body.id,"version":cloudantDoc.body.ver});
     }else{
 		res.status(404);
 		res.contentType("application/json");
@@ -65,7 +65,7 @@ var getCustomer = function(req, res){
 	if(cloudantErr === null){
 		res.status(200);
 		res.contentType("application/json");
-		res.send({"status":"SUCCESS","id":cloudantDoc.id, "ver":cloudantDoc.ver});
+		res.send({"status":"SUCCESS","id":cloudantDoc.body.id, "ver":cloudantDoc.body.ver});
 	}else{
 		res.status(404);
 		res.contentType("application/json");
