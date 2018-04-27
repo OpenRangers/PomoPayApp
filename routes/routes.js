@@ -17,6 +17,10 @@ var appRouter = function(app) {
 	app.get('/account', function(req, res){
 		res.send("hi this is mallika");
 	});
+	
+	app.get('/transactions', function(req, res){
+		res.send("Hello from Deepika");
+	});
 }
 
 module.exports = appRouter;
