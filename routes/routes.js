@@ -18,8 +18,9 @@ var appRouter = function(app) {
 		res.send("hi this is mallika");
 	});
 	
-	app.get('/transactions', function(req, res){
-		res.send("Hello from Deepika");
+	app.get('/transaction', function(req, res){
+		var transaction = require("./transaction.js");
+		transaction.gettransaction(req,res);
 	});
 }
 
