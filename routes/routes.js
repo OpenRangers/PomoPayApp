@@ -14,7 +14,7 @@ var appRouter = function(app) {
 		customer.getCustomer(req,res);
 	});
 	
-	app.get('/customer/:username/verify?pwd=:password', function(req, res){
+	app.get('/customer/:username/verify', function(req, res){
 		var account = require("./account.js");
 		account.vefifyUsernamePwd(req,res);
 
