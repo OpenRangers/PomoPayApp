@@ -27,11 +27,11 @@ var getAccountList =  function(req, res) {
  				res.send(accerr, 500);
  		
  			}else{
- 				res.send(accdata.accountnumber);
+ 				//res.send(accdata.accountnumber);
  				accountlist.push(accdata.accountnumber);
  				}
  	
-
+return;
 	
 			});
  		}
