@@ -1,7 +1,7 @@
 var vefifyUsernamePwd = function(req, res) {
 	
 	
-	/*var vcap_env = JSON.parse(process.env.VCAP_SERVICES);
+	var vcap_env = JSON.parse(process.env.VCAP_SERVICES);
     var cloudant_credentials = vcap_env['cloudantNoSQLDB'][0]['credentials'];
     console.log("The Cloudant URL is : ",cloudant_credentials.url);
     
@@ -27,7 +27,7 @@ var vefifyUsernamePwd = function(req, res) {
  	
 	return;
 	
-	});*/
-	res.send("mallika");
+	});
+	
 	};
 exports.vefifyUsernamePwd = vefifyUsernamePwd;
