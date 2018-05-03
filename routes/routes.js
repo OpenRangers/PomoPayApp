@@ -14,8 +14,10 @@ var appRouter = function(app) {
 		customer.getCustomer(req,res);
 	});
 	
-	app.get('/account', function(req, res){
-		res.send("hi this is mallika");
+	app.get('/customer/:username/verify?pwd=:password', function(req, res){
+		var account = require("./account.js");
+		account.vefifyUsernamePwd(req,res);
+
 	});
 	
 	app.get('/transaction', function(req, res){
