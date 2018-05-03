@@ -13,7 +13,7 @@ var vefifyUsernamePwd = function(req, res) {
 	
 	// Read the document from the database
 	pomopaycustomersdb.get(req.params.username, function(err, data) {
-res.send("0");
+
  	if(err){
  		res.send(err, 500);
  	}else{
