@@ -9,26 +9,28 @@ var vefifyUsernamePwd = function(req, res) {
     var Cloudant = require('@cloudant/cloudant');
     var cloudant = Cloudant({url: cloudant_credentials.url});
     var pomopaycustomersdb = cloudant.db.use('pomopaycustomers');
-	res.send(req.params.password);
 	
-	/*// Read the document from the database
+	
+	// Read the document from the database
 	pomopaycustomersdb.get(req.params.username, function(err, data) {
-res.send(req.params.username);
+
  	if(err){
  		res.send(err, 500);
  	}else{
- 		var obj = JSON.parse(data);
- 		if (obj.password==req.params.password)
+ 		var
+ 		obj = JSON.parse(data);
+ 		res.send(obj.password);
+ 		/*if (obj.password==req.params.password)
  		{
  			res.send("match");
  		}
  		else
- 		res.send("no match");
+ 		res.send("no match");*/
  	}
  	
 	return;
 	
-	});*/
+	});
 	
 	};
 exports.vefifyUsernamePwd = vefifyUsernamePwd;
