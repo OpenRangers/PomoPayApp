@@ -21,13 +21,13 @@ var vefifyUsernamePwd = function(req, res) {
  		
  		
  		var obj = data.password;
- 		res.send(obj);
- 		/*if (obj.password==req.params.password)
+ 		
+ 		if (obj==req.params.password)
  		{
  			res.send("match");
  		}
  		else
- 		res.send("no match");*/
+ 		res.send("no match");
  	}
  	
 	return;
