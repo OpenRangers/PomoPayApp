@@ -9,10 +9,10 @@ var vefifyUsernamePwd = function(req, res) {
     var Cloudant = require('@cloudant/cloudant');
     var cloudant = Cloudant({url: cloudant_credentials.url});
     var pomopaycustomersdb = cloudant.db.use('pomopaycustomers');
-	
-	// Read the document from the database
+	res.send(req.params.username);
+	/*// Read the document from the database
 	pomopaycustomersdb.get(req.params.username, function(err, data) {
-
+res.send(req.params.username);
  	if(err){
  		res.send(err, 500);
  	}else{
@@ -27,7 +27,7 @@ var vefifyUsernamePwd = function(req, res) {
  	
 	return;
 	
-	});
+	});*/
 	
 	};
 exports.vefifyUsernamePwd = vefifyUsernamePwd;
