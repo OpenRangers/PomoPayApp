@@ -13,13 +13,13 @@ var vefifyUsernamePwd = function(req, res) {
 	
 	// Read the document from the database
 	pomopaycustomersdb.get(req.params.username, function(err, data) {
-
+res.send("0");
  	if(err){
  		res.send(err, 500);
  	}else{
- 		var
- 		obj = JSON.parse(data);
- 		res.send(obj.password);
+ 		res.send("1");
+ 		var obj = JSON.parse(data);
+ 		res.send("2");
  		/*if (obj.password==req.params.password)
  		{
  			res.send("match");
