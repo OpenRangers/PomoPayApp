@@ -20,10 +20,16 @@ var appRouter = function(app) {
 
 	});
 	
+	app.get('/customer/:username/account/list', function(req, res){
+		var account = require("./account.js");
+		account.getAccountList(req,res);
+
+	});
+	
 	app.get('/transaction', function(req, res){
 		var transaction = require("./transaction.js");
 		transaction.gettransaction(req,res);
 	});
-}
+};
 
 module.exports = appRouter;
