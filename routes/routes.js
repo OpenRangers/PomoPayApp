@@ -20,7 +20,7 @@ var appRouter = function(app) {
 
 	});
 	
-	app.get('/customer/:username/account/list', function(req, res){
+	app.get('/customer/account/list/:username', function(req, res){
 		var account = require("./account.js");
 		account.getAccountList(req,res);
 
