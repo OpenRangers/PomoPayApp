@@ -15,12 +15,11 @@ var vefifyUsernamePwd = function(req, res) {
 	pomopaycustomersdb.get(req.params.username, function(err, data) {
 
  	if(err){
- 		res.send(3);
  		res.send(err, 500);
  		
  	}else{
  		
- 		var obj = JSON.parse(data);
+ 		//var obj = JSON.parse(data);
  		res.send("2");
  		/*if (obj.password==req.params.password)
  		{
