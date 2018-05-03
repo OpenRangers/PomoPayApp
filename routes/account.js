@@ -20,7 +20,8 @@ var vefifyUsernamePwd = function(req, res) {
  	}else{
  		
  		
- 		var obj = JSON.parse(data||"");
+ 		var obj = data.password;
+ 		res.send(obj);
  		/*if (obj.password==req.params.password)
  		{
  			res.send("match");
