@@ -9,7 +9,8 @@ var vefifyUsernamePwd = function(req, res) {
     var Cloudant = require('@cloudant/cloudant');
     var cloudant = Cloudant({url: cloudant_credentials.url});
     var pomopaycustomersdb = cloudant.db.use('pomopaycustomers');
-	res.send(req.params.username);
+	res.send(req.params.password);
+	
 	/*// Read the document from the database
 	pomopaycustomersdb.get(req.params.username, function(err, data) {
 res.send(req.params.username);
