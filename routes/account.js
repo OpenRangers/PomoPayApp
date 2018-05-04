@@ -19,9 +19,9 @@ var getAccountList =  function(req, res) {
     var cloudant2 = Cloudant2({url: cloudant_credentials2.url});
 	
 	var pomopayaccountdb = cloudant2.db.use('pomopayaccounts');
-	res.send("1");
+	
 	var accountlist =[];
-	pomopaycustomersdb.get(req.params.username, function(err, data) {
+	accountlist=pomopaycustomersdb.get(req.params.username, function(err, data) {
 
  	if(err){
  		res.send(err, 500);
@@ -34,7 +34,7 @@ var getAccountList =  function(req, res) {
  		
  	}
  	//res.send(accountlist);
-	return;
+	return accountlist;
 	
 	});
  	for (var j in accountlist)	{
