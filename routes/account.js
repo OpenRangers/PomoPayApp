@@ -22,7 +22,7 @@ var getAccountList =  function(req, res) {
  		for (var i in data.account)
  		{
  			accountlist.push(data.account[i]);
- 		pomopayaccountdb.get(data.account[i].value(), function(accerr, accdata) {
+ 		pomopayaccountdb.get("5f8d5a45c55c0f07954df4f9c1e8fe74", function(accerr, accdata) {
  			if(accerr){
  				res.send(accerr, 500);
  		
