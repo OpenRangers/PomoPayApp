@@ -8,7 +8,7 @@ var getAccountList =  function(req, res) {
     var Cloudant = require('@cloudant/cloudant');
     var cloudant = Cloudant({url: cloudant_credentials.url});
     var pomopaycustomersdb = cloudant.db.use('pomopaycustomers');
-    res.send(pomopaycustomersdb);
+    
     
     var vcap_env2 = JSON.parse(process.env.VCAP_SERVICES);
     var cloudant_credentials2 = vcap_env2['cloudantNoSQLDB'][0]['credentials'];
@@ -17,6 +17,7 @@ var getAccountList =  function(req, res) {
     // Connect to the pomopaycustomers DB
     var Cloudant2 = require('@cloudant/cloudant');
     var cloudant2 = Cloudant2({url: cloudant_credentials2.url});
+	res.send("1");
 	var pomopayaccountdb = cloudant2.db.use('pomopayaccounts');
 	
 	var accountlist =[];
