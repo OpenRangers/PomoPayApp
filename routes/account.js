@@ -67,7 +67,7 @@ var vefifyUsernamePwd = function(req, res) {
  		
  		var obj = data.password;
  		
- 		if (obj==req.params.password)
+ 		if (obj==req.query.password)
  		{
  			res.send("match");
  		}
