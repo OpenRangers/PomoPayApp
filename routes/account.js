@@ -22,7 +22,7 @@ var getAccountList =  function(req, res) {
  		}
  		
  	}
- 	
+ 	res.send(accountlist);
 	return;
 	
 	});
