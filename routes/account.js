@@ -7,12 +7,26 @@ var getAccountList =  function(req, res) {
     // Connect to the pomopaycustomers DB
     var Cloudant = require('@cloudant/cloudant');
     var cloudant = Cloudant({url: cloudant_credentials.url});
-    var pomopaycustomersdb = cloudant.db.use('pomopaycustomers');
+    //var pomopaycustomersdb = cloudant.db.use('pomopaycustomers');
 	var pomopayaccountdb = cloudant.db.use('pomopayaccounts');
 	var accountlist =[];
 	
+	pomopayaccountdb.get(req.params.username, function(accerr, accdata) {
+ 			if(accerr){
+ 				res.send(accerr, 500);
+ 		
+ 			}else{
+ 				res.send(accdata.accountnumber);
+ 				accountlist.push(accdata.accountnumber);
+ 				}
+ 	
+return;
+	
+			});
+	
+	
 	// Read the document from the database
-	pomopaycustomersdb.get(req.params.username, function(err, data) {
+	/*pomopaycustomersdb.get(req.params.username, function(err, data) {
 
  	if(err){
  		res.send(err, 500);
@@ -40,7 +54,7 @@ return;
  	
 	return;
 	
-	});
+	});*/
 	
 	};
 var vefifyUsernamePwd = function(req, res) {
