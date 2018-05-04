@@ -34,10 +34,10 @@ var getAccountList =  function(req, res) {
  		
  	}
  	
-	
+	res.send(accountlist);
 	
 	});
-	res.send(accountlist);
+	
  	/*for (var j in accountlist)	{
 	pomopayaccountdb.get(accountlist[j], function(accerr, accdata) {
  			if(accerr){
