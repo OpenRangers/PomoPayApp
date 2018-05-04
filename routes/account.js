@@ -31,7 +31,7 @@ var getAccountList =  function(req, res) {
  		{
  			accountlist.push(data.account[i]);
  			var data2 =pomopayaccountdb.get(data.account[i]);
- 			accountlist.push(data2);
+ 			accountlist.push(data2.accountnumber);
  		}
  		
  	}
