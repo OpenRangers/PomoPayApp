@@ -86,4 +86,4 @@ var getCustomerVerify = function(req, res){
 
 exports.postCustomer = postCustomer;
 exports.getCustomer = getCustomer;
-exports.getCustomer = getCustomerVerify;
+exports.getCustomerVerify = getCustomerVerify;
