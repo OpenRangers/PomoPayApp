@@ -15,8 +15,13 @@ var appRouter = function(app) {
 	});
 	
 	app.get('/customer/:username/verify', function(req, res){
+		var customer = require("./customer.js");
+		customer.getCustomerVerify(req,res);
+	});
+	
+	app.post('/customer/:username/account', function(req, res){
 		var account = require("./account.js");
-		account.vefifyUsernamePwd(req,res);
+		account.registerAccount(req,res);
 
 	});
 	
