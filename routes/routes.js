@@ -31,9 +31,9 @@ var appRouter = function(app) {
 
 	});
 	
-	app.get('/transaction', function(req, res){
+	app.post('/transaction', function(req, res){
 		var transaction = require("./transaction.js");
-		transaction.gettransaction(req,res);
+		transaction.postTransaction(req,res);
 	});
 };
 
