@@ -25,6 +25,8 @@
   "dependencies": {
     "@cloudant/cloudant": "^2.1.0",
     "async": "^2.6.0",
-    "body-parser": "^1.18.2"
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "request": "^2.85.0"
   }
 }
