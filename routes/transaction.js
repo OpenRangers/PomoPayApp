@@ -21,7 +21,7 @@ var postTransaction = function(req, res) {
 	var payee_accid = req.body.payeeaccid;
 	//var payee_cellphone = req.body.payeecellphone;
 	var remarks = req.body.remarks;
-		
+			
  		pomopaytransactionsdb.get(req.params.payer_accid, function(err, data) {
          	
  			if(err)
