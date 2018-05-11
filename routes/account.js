@@ -18,7 +18,7 @@ var getAccountList =  function(req, res) {
 
 			//console.log("The customer data is -> ",data);
 			//res.send(data.account);
-			pomopayaccountdb.get(data.account[0], function(accerr, accdata){
+			/*pomopayaccountdb.get(data.account[0], function(accerr, accdata){
 				if(accerr){
 					res.status(500).send(accerr);
 				}else{
@@ -27,7 +27,10 @@ var getAccountList =  function(req, res) {
 											, "accid":accdata._id}]});
 											
 				}
-			});
+			});*/
+			var accdata=			pomopayaccountdb.get(data.account[0]);
+			accountlist.push({"accounts":[{"accountnumber":accdata.accountnumber
+											, "accid":accdata._id}]});
 			res.send(accountlist);
 		}
 	});
