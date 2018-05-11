@@ -18,7 +18,7 @@ var postTransaction = function(req, res) {
 	//var payer_username = req.body.payerusername;
 	var payer_accid = req.body.payeraccid;
 	var amount = req.body.amount;
-	var payee_accid = req.body.payeeaccid;
+	//var payee_accid = req.body.payeeaccid;
 	//var payee_cellphone = req.body.payeecellphone;
 	var remarks = req.body.remarks;
 			
