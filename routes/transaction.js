@@ -18,25 +18,19 @@ var postTransaction = function(req, res) {
 	//var payer_username = req.body.payerusername;
 	var payer_accid = req.body.payeraccid;
 	var amount = req.body.amount;
-	var payee_accid = req.body.payeeaccid;
+	//var payee_accid = req.body.payeeaccid;
 	//var payee_cellphone = req.body.payeecellphone;
 	var remarks = req.body.remarks;
 			
- 		pomopaytransactionsdb.get(req.params.payer_accid, function(err, data) {
+ 		pomopaytransactionsdb.get(payer_accid, function(err, data) {
          	
  			if(err)
  	 {
- 		res.send(err, 500);
- 	 }
- 		 	else 
- 		{
- 		 		
- 		 		var payeraccid= data.payer_accid;
- 		 		if(payeraccid===null)
- 		 {
- 			//  insert the incoming data into the DB
+ 	 	if(err.statusCode == 404 && err.reason == "missing")
+ 	 	{
+ 	 		//  insert the incoming data into the DB
  			pomopaytransactionsdb.insert({ _id: payer_accid, "transactions": [{ "amount": amount, "Type": "Debit", "remarks": remarks, "date": Date }] }, function(err, data) {
-    
+ 								 
     if(err)
     {
  		res.send(err, 500);
@@ -50,113 +44,36 @@ var postTransaction = function(req, res) {
  	return;
  	
 });
+ 	 	}
+ 	 	else{
+ 	 		
+ 	 		res.send(err, 500);
+ 	 	}
+ 	 }
+	 	
 
-}
-
-	else
-	{
-		//  update the DB
-		pomopaytransactionsdb.get(payer_accid, function(err, data) {
-			
-			if(err)
-		{
- 		 res.send(err, 500);
- 		}
- 	else
- 	{
-			doc=data ;
+ 	 	else
+ 	 	{
+ 	 		doc=data ;
 			var index = doc.transactions.length;
 			doc.transactions.push(index, {"amount": amount, "Type": "Debit", "remarks": remarks, "date": Date });
-			pomopaytransactionsdb.insert(doc,function(err, data){
-			
-			
-		if(err)
-		{
- 		 res.send(err, 500);
- 		}
- 	else
- 	   {
-  		res.send(data, 200);
- 	   }
- 	   return;
- 	});
- 	}
- 	
- 	return;
- 		
- 	});
- }
- }
- return;
- });
- 
-	pomopaytransactionsdb.get(req.params.payee_accid, function(err, data) {
-         	
- 			if(err)
- 	 {
- 		res.send(err, 500);
- 	 }
- 		 	else 
- 		{
- 		 		
- 		 		var payeeaccid= data.payee_accid;
- 		 		if(payeeaccid===null)
- 		 {
- 			//  insert the incoming data into the DB
- 			pomopaytransactionsdb.insert({ _id: payee_accid, "transactions": [{ "amount": amount, "Type": "Credit", "remarks": remarks, "date": Date }] }, function(err, data) {
-    
-    if(err)
-    {
- 		res.send(err, 500);
- 		
- 	}
- 	else
- 	{
-		res.send(data, 200);
- 	}
- 	
- 	return;
- 	
-});
-
-}
-
-	else
-	{
-		//  update the DB
-		pomopaytransactionsdb.get(payee_accid, function(err, data) {
+			pomopaytransactionsdb.insert(doc,function(err, data) {
 			
 			if(err)
 		{
  		 res.send(err, 500);
  		}
  	else
- 	{
-			doc=data ;
-			var index = doc.transactions.length;
-			doc.transactions.push(index, {"amount": amount, "Type": "Credit", "remarks": remarks, "date": Date });
-			pomopaytransactionsdb.insert(doc,function(err, data){
-			
-			
-		if(err)
-		{
- 		 res.send(err, 500);
- 		}
- 	else
  	   {
   		res.send(data, 200);
  	   }
  	   return;
  	});
- 	}
- 	
- 	return;
+ 	 	}
  		
- 	});
- }
- }
- return;
- });
- };
- 
+ 	 
+ 	 return;
+ 	 });
+ 	 };
+ 	  
 exports.postTransaction = postTransaction;
