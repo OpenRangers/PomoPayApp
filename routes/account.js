@@ -16,7 +16,7 @@ var getAccountList =  function(req, res) {
 		}else{
 
 			//console.log("The customer data is -> ",data);
-			res.send(data);
+			res.send(data.account);
 			/*pomopayaccountdb.get(data.account[0], function(accerr, accdata){
 				if(accerr){
 					res.status(500).send(accerr);
