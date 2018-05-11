@@ -18,21 +18,21 @@ var getAccountList =  function(req, res) {
 
 			//console.log("The customer data is -> ",data);
 			//res.send(data.account);
-			accountlist=pomopayaccountdb.get(data.account[0], function(accerr, accdata){
+			pomopayaccountdb.get(data.account[0], function(accerr, accdata){
 				if(accerr){
 					res.status(500).send(accerr);
 				}else{
 					console.log("The accounts data is -> ",accdata);
 					accountlist.push(accdata);
-											
+					res.send(accountlist);						
 				}
-				return accountlist;
+				
 			});
 			//var dd=			pomopayaccountdb.get(data.account[0]);
 			//var accdata=JSON.parse(dd);
 			//accountlist.push({"accounts":[{"accountnumber":accdata.accountnumber
 			//								, "accid":accdata._id}]});
-			res.send(accountlist);
+			
 		}
 	});
 	
