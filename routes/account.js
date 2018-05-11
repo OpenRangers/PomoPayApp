@@ -34,7 +34,7 @@ var getAccountList =  function(req, res) {
 
 var registerAccount=function(req,res){
 	
-	const options = {
+	/*const options = {
 			hostname:"ob-api.innovationwide.co.uk",
 			uri:"http://ob-api.innovationwide.co.uk/api/accounts"+req.body.accountnumber,
 			method:"GET"
@@ -95,7 +95,7 @@ var registerAccount=function(req,res){
 		}
 			
 		
-	});
+	});*/
 	
 	
 	
