@@ -29,10 +29,10 @@ var getAccountList =  function(req, res) {
 				}
 			});*/
 			var dd=			pomopayaccountdb.get(data.account[0]);
-			var accdata=JSON.parse(dd);
-			accountlist.push({"accounts":[{"accountnumber":accdata.accountnumber
-											, "accid":accdata._id}]});
-			res.send(accountlist);
+			//var accdata=JSON.parse(dd);
+			//accountlist.push({"accounts":[{"accountnumber":accdata.accountnumber
+			//								, "accid":accdata._id}]});
+			res.send(dd);
 		}
 	});
 	
