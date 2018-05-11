@@ -23,8 +23,7 @@ var getAccountList =  function(req, res) {
 					res.status(500).send(accerr);
 				}else{
 					console.log("The accounts data is -> ",accdata);
-					accountlist.push([{"accountnumber":accdata.accountnumber
-											, "accid":accdata._id}]);
+					accountlist.push(accdata);
 											
 				}
 				return accountlist;
@@ -33,7 +32,7 @@ var getAccountList =  function(req, res) {
 			//var accdata=JSON.parse(dd);
 			//accountlist.push({"accounts":[{"accountnumber":accdata.accountnumber
 			//								, "accid":accdata._id}]});
-			res.send(JSON.parse(accountlist));
+			res.send(accountlist);
 		}
 	});
 	
