@@ -15,19 +15,20 @@ var getAccountList =  function(req, res) {
 		if(err){
 			res.status(500).send(err);
 		}else{
-			
-			pomopayaccountdb.get(data.account[0], function(accerr, accdata){
+			for (var index in data.account){
+			pomopayaccountdb.get(data.account[index], function(accerr, accdata){
 				if(accerr){
 					res.status(500).send(accerr);
 				}else{
 					console.log("The accounts data is -> ",accdata);
 					accountlist.push(accdata);
-					res.append("account",accdata);						
+										
 				}
 				
 			});
 			
-			//res.send(accdata);
+		}
+	res.send(accountlist);
 			//var accdata=JSON.parse(dd);
 			//accountlist.push({"accounts":[{"accountnumber":accdata.accountnumber
 			//								, "accid":accdata._id}]});
