@@ -21,6 +21,7 @@ var postTransaction = function(req, res) {
 	//var payee_accid = req.body.payeeaccid;
 	//var payee_cellphone = req.body.payeecellphone;
 	var remarks = req.body.remarks;
+	console.log("outside get");
 			
  		pomopaytransactionsdb.get(payer_accid, function(err, data) {
          	
@@ -29,16 +30,17 @@ var postTransaction = function(req, res) {
  	 	if(err.statusCode == 404 && err.reason == "missing")
  	 	{
  	 		//  insert the incoming data into the DB
- 			pomopaytransactionsdb.insert({ _id: payer_accid, "transactions": [{ "amount": amount, "Type": "Debit", "remarks": remarks, "date": Date }] }, function(err, data) {
+ 	 		console.log("inside get if ");
+ 			pomopaytransactionsdb.insert({ _id: payer_accid, "transactions": [{ "amount": amount, "Type": "Debit", "remarks": remarks, "date": Date }] }, function(err, data1) {
  								 
     if(err)
     {
  		res.send(err, 500);
- 		
+ 		console.log("error");
  	}
  	else
  	{
-		res.send(data, 200);
+		res.send(data1, 200);
  	}
  	
  	return;
@@ -54,10 +56,31 @@ var postTransaction = function(req, res) {
 
  	 	else
  	 	{
- 	 		doc=data ;
-			var index = doc.transactions.length;
-			doc.transactions.push(index, {"amount": amount, "Type": "Debit", "remarks": remarks, "date": Date });
-			pomopaytransactionsdb.insert(doc,function(err, data) {
+ 	 		if(data == null)
+ 	 			{
+ 	 			pomopaytransactionsdb.insert({ _id: payer_accid, "transactions": [{ "amount": amount, "Type": "Debit", "remarks": remarks, "date": Date }] }, function(err, data2) {
+					 
+ 	 			    if(err)
+ 	 			    {
+ 	 			 		res.send(err, 500);
+ 	 			 		console.log("error");
+ 	 			 	}
+ 	 			 	else
+ 	 			 	{
+ 	 					res.send(data2, 200);
+ 	 			 	}
+ 	 			 	
+ 	 			 	return;
+ 	 			 	
+ 	 			});
+ 	 			}
+ 	 		else
+ 	 			{
+ 	 		//doc=data ;
+ 	 		//Object.keys(data.transactions).length;
+			//var index = Object.keys(data.transactions).length;
+			//data.transactions.push(index,{"amount": amount, "Type": "Debit", "remarks": remarks, "date": Date });
+			pomopaytransactionsdb.insert(data,function(err, data3) {
 			
 			if(err)
 		{
@@ -65,10 +88,12 @@ var postTransaction = function(req, res) {
  		}
  	else
  	   {
-  		res.send(data, 200);
+  		res.send(data3, 200);
  	   }
  	   return;
  	});
+ 	 			}
+ 	 		
  	 	}
  		
  	 
