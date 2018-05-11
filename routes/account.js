@@ -1,3 +1,4 @@
+/*eslint-disable semi */
 var getAccountList =  function(req, res) {
 	
 	var vcap_env = JSON.parse(process.env.VCAP_SERVICES);
@@ -21,13 +22,14 @@ var getAccountList =  function(req, res) {
 					res.status(500).send(accerr);
 				}else{
 					console.log("The accounts data is -> ",accdata);
-					var accountlist2=[];
-					accountlist2.push([{"accountnumber":accdata.accountnumber
-											, "accid":accdata._id}]);
+					
+					//var accountlist2=[];
+					//accountlist2.push([{"accountnumber":accdata.accountnumber
+					//						, "accid":accdata._id}]);
 					//res.send({"accounts":accountlist});
 										
 				}
-				return accountlist2;
+				return accdata.accountnumber;
 			}));
 			
 		}
