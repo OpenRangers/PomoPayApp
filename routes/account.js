@@ -9,6 +9,7 @@ var getAccountList =  function(req, res) {
     var cloudant = Cloudant({url: cloudant_credentials.url});
     var pomopaycustomersdb = cloudant.db.use('pomopaycustomers');
 	var pomopayaccountdb = cloudant.db.use('pomopayaccounts');
+	var accountlist =[];
 	
 	pomopaycustomersdb.get(req.params.username, function(err, data){
 		if(err){
@@ -22,12 +23,13 @@ var getAccountList =  function(req, res) {
 					res.status(500).send(accerr);
 				}else{
 					console.log("The accounts data is -> ",accdata);
-					res.status(200).send({"accounts":[{"accountnumber":accdata.accountnumber
+					accountlist.push({"accounts":[{"accountnumber":accdata.accountnumber
 											, "accid":accdata._id}]});
 				}
 			});
 		}
 	});
+	res.send(accountlist);
 	return;
 };
 
