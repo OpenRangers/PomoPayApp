@@ -8,7 +8,7 @@ var getAccountList =  function(req, res) {
     var Cloudant = require('@cloudant/cloudant');
     var cloudant = Cloudant({url: cloudant_credentials.url});
     var pomopaycustomersdb = cloudant.db.use('pomopaycustomers');
-	//var pomopayaccountdb = cloudant.db.use('pomopayaccounts');
+	var pomopayaccountdb = cloudant.db.use('pomopayaccounts');
 	
 	pomopaycustomersdb.get(req.params.username, function(err, data){
 		if(err){
@@ -16,17 +16,16 @@ var getAccountList =  function(req, res) {
 		}else{
 
 			//console.log("The customer data is -> ",data);
-			res.send(data.account);
-			/*pomopayaccountdb.get(data.account[0], function(accerr, accdata){
+			//res.send(data.account);
+			pomopayaccountdb.get(data.account[0], function(accerr, accdata){
 				if(accerr){
 					res.status(500).send(accerr);
 				}else{
 					console.log("The accounts data is -> ",accdata);
-					res.status(200).send({"accounts":[{"bankname":accdata.bankname
-											, "accountnumber":accdata.accountnumber
+					res.status(200).send({"accounts":[{"accountnumber":accdata.accountnumber
 											, "accid":accdata._id}]});
 				}
-			});*/
+			});
 		}
 	});
 	return;
