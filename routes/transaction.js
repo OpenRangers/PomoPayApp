@@ -35,12 +35,14 @@ var postTransaction = function(req, res) {
  								 
     if(err)
     {
- 		res.send(err, 500);
+ 		//res.send(err, 500);
+ 		res.status(500).send(err);
  		console.log("error");
  	}
  	else
  	{
-		res.send(data1, 200);
+ 		res.status(200).send(data1);
+		//res.send(data1, 200);
  	}
  	
  	return;
@@ -49,7 +51,8 @@ var postTransaction = function(req, res) {
  	 	}
  	 	else{
  	 		
- 	 		res.send(err, 500);
+ 	 		//res.send(err, 500);
+ 	 		res.status(500).send(err);
  	 	}
  	 }
 	 	
@@ -62,12 +65,14 @@ var postTransaction = function(req, res) {
 					 
  	 			    if(err)
  	 			    {
- 	 			 		res.send(err, 500);
+ 	 			 		//res.send(err, 500);
+ 	 			 		res.status(500).send(err);
  	 			 		console.log("error");
  	 			 	}
  	 			 	else
  	 			 	{
- 	 					res.send(data2, 200);
+ 	 					//res.send(data2, 200);
+ 	 					res.status(200).send(data2);
  	 			 	}
  	 			 	
  	 			 	return;
@@ -84,11 +89,13 @@ var postTransaction = function(req, res) {
 			
 			if(err)
 		{
- 		 res.send(err, 500);
+ 		 //res.send(err, 500);
+ 		 res.status(500).send(err);
  		}
  	else
  	   {
-  		res.send(data3, 200);
+  		//res.send(data3, 200);
+  		res.status(200).send(data3);
  	   }
  	   return;
  	});
