@@ -23,8 +23,8 @@ var getAccountList =  function(req, res) {
 					res.status(500).send(accerr);
 				}else{
 					console.log("The accounts data is -> ",accdata);
-					accountlist.push({"accounts":[{"accountnumber":accdata.accountnumber
-											, "accid":accdata._id}]});
+					accountlist.push([{"accountnumber":accdata.accountnumber
+											, "accid":accdata._id}]);
 											
 				}
 				return accountlist;
