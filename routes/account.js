@@ -1,4 +1,8 @@
 /*eslint-disable semi */
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 var getAccountList =  function(req, res) {
 	
 	var vcap_env = JSON.parse(process.env.VCAP_SERVICES);
@@ -17,22 +21,23 @@ var getAccountList =  function(req, res) {
 			res.status(500).send(err);
 		}else{
 			for (var index in data.account){
-			accountlist.push(pomopayaccountdb.get(data.account[index], function(accerr, accdata){
+			pomopayaccountdb.get(data.account[index], function(accerr, accdata){
 				if(accerr){
 					res.status(500).send(accerr);
 				}else{
 					console.log("The accounts data is -> ",accdata);
 					
 					//var accountlist2=[];
-					//accountlist2.push([{"accountnumber":accdata.accountnumber
-					//						, "accid":accdata._id}]);
+					accountlist.push([{"accountnumber":accdata.accountnumber
+											, "accid":accdata._id}]);
 					//res.send({"accounts":accountlist});
 										
 				}
-				return accdata.accountnumber;
-			}));
+				
+			});
 			
 		}
+		sleep(2000);
 	res.send({"accounts":accountlist});
 			//var accdata=JSON.parse(dd);
 			//accountlist.push({"accounts":[{"accountnumber":accdata.accountnumber
