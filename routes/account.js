@@ -33,7 +33,7 @@ var getAccountList =  function(req, res) {
 			//var accdata=JSON.parse(dd);
 			//accountlist.push({"accounts":[{"accountnumber":accdata.accountnumber
 			//								, "accid":accdata._id}]});
-			res.send(accountlist);
+			res.send(accountlist[0].accountnumber);
 		}
 	});
 	
