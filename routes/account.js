@@ -23,13 +23,14 @@ var getAccountList =  function(req, res) {
 					console.log("The accounts data is -> ",accdata);
 					accountlist.push([{"accountnumber":accdata.accountnumber
 											, "accid":accdata._id}]);
+											res.send({"accounts":accountlist});
 										
 				}
 				
 			});
 			
 		}
-	res.send({"accounts":accountlist});
+	//res.send({"accounts":accountlist});
 			//var accdata=JSON.parse(dd);
 			//accountlist.push({"accounts":[{"accountnumber":accdata.accountnumber
 			//								, "accid":accdata._id}]});
