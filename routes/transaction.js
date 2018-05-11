@@ -22,13 +22,61 @@ var postTransaction = function(req, res) {
 	//var payee_cellphone = req.body.payeecellphone;
 	var remarks = req.body.remarks;
 			
- 		pomopaytransactionsdb.get(req.params.payer_accid, function(err, data) {
+ 		pomopaytransactionsdb.get(payer_accid, function(err, data) {
          	
  			if(err)
  	 {
+ 	 	if(err.statusCode == 404 && err.reason == "missing")
+ 	 	{
+ 	 		//  insert the incoming data into the DB
+ 			pomopaytransactionsdb.insert({ _id: payer_accid, "transactions": [{ "amount": amount, "Type": "Debit", "remarks": remarks, "date": Date }] }, function(err, data) {
+ 								 
+    if(err)
+    {
  		res.send(err, 500);
+ 		
+ 	}
+ 	else
+ 	{
+		res.send(data, 200);
+ 	}
+ 	
+ 	return;
+ 	
+});
+ 	 	}
+ 	 	else{
+ 	 		
+ 	 		res.send(err, 500);
+ 	 	}
  	 }
- 		 	else 
+	 	
+
+ 	 	else
+ 	 	{
+ 	 		doc=data ;
+			var index = doc.transactions.length;
+			doc.transactions.push(index, {"amount": amount, "Type": "Debit", "remarks": remarks, "date": Date });
+			pomopaytransactionsdb.insert(doc,function(err, data) {
+			
+			if(err)
+		{
+ 		 res.send(err, 500);
+ 		}
+ 	else
+ 	   {
+  		res.send(data, 200);
+ 	   }
+ 	   return;
+ 	});
+ 	 	}
+ 		
+ 	 
+ 	 return;
+ 	 });
+ 	 };
+ 	 
+/* 	 	else 
  		{
  		 		
  		 		var payeraccid= data.payer_accid;
@@ -158,5 +206,6 @@ var postTransaction = function(req, res) {
  return;
  });
  };
+ */
  
 exports.postTransaction = postTransaction;
