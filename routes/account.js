@@ -35,9 +35,11 @@ var getAccountList =  function(req, res) {
 				}
 				
 			});
-			
+			while(data.account.length===accountlist.length) {
+      	require('deasync').runLoopOnce();
+    		}
 		}
-		sleep(2000);
+		
 	res.send({"accounts":accountlist});
 			//var accdata=JSON.parse(dd);
 			//accountlist.push({"accounts":[{"accountnumber":accdata.accountnumber
@@ -58,7 +60,7 @@ var registerAccount=function(req,res){
     // Connect to the pomopaycustomers DB
     var Cloudant = require('@cloudant/cloudant');
     var cloudant = Cloudant({url: cloudant_credentials.url});
-    //var pomopaycustomersdb = cloudant.db.use('pomopaycustomers');
+    var pomopaycustomersdb = cloudant.db.use('pomopaycustomers');
 	var pomopayaccountdb = cloudant.db.use('pomopayaccounts');
 	
 	pomopayaccountdb.insert(req.body, function(err, data) {
@@ -69,7 +71,7 @@ var registerAccount=function(req,res){
 					 	}
 				    });
 	
-	
+	pomopaycustomersdb.up
 	//res.status(200).send({"status":"OK","description":"The account registered succesfully"});
 	return;
 };
