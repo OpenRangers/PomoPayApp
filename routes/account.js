@@ -85,10 +85,11 @@ var registerAccount=function(req,res){
  	}
  	
 	});
+	
 	while(!done) {
       		require('deasync').runLoopOnce();
     		}
-	
+	res.send(customerdata);
 	var url="http://ob-api.innovationwide.co.uk/api/accounts"+req.body.accountnumber;
 	
 	const options = {
