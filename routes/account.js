@@ -35,11 +35,11 @@ var getAccountList =  function(req, res) {
 				}
 				
 			});
-			while(data.account.length===accountlist.length) {
+			
+		}
+		while(data.account.length!==accountlist.length) {
       	require('deasync').runLoopOnce();
     		}
-		}
-		
 	res.send({"accounts":accountlist});
 			//var accdata=JSON.parse(dd);
 			//accountlist.push({"accounts":[{"accountnumber":accdata.accountnumber
