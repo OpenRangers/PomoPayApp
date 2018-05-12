@@ -140,7 +140,7 @@ var registerAccount=function(req,res){
 				{
 					ilength=0;
 					firstaccount=true;
-					res.send(ilength);
+					res.send(String(ilength));
 					}
 				//res.send(firstaccount);
 				pomopayaccountdb.insert({"accountnumber": req.body.accountnumber,
