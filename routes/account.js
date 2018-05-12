@@ -140,7 +140,7 @@ var registerAccount=function(req,res){
 				{
 					ilength=0;
 					firstaccount=true;
-					res.send(String(ilength));
+					//res.send(String(ilength));
 					}
 				//res.send(firstaccount);
 				pomopayaccountdb.insert({"accountnumber": req.body.accountnumber,
@@ -151,10 +151,10 @@ var registerAccount=function(req,res){
 					 	}else{
 					 		//res.send(data.id);
 					 		
-					 		/*customerdata.accounts[indexlength].accid=data.id;
-					 		customerdata.accounts[indexlength].accountnumber= data.accountnumber;
-					 		customerdata.accounts[indexlength].bankname = data.bankname;
-					 		customerdata.accounts[indexlength].username= data.username;*/
+					 		customerdata.accounts[ilength].accid=data.id;
+					 		customerdata.accounts[ilength].accountnumber= data.accountnumber;
+					 		customerdata.accounts[ilength].bankname = data.bankname;
+					 		customerdata.accounts[ilength].username= data.username;
 					 		res.send(ilength);
 					 		pomopaycustomersdb.insert(customerdata, function(custerr, custdata) {
 					 			if(custerr){
