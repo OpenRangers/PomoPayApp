@@ -63,6 +63,7 @@ var registerAccount=function(req,res){
     console.log("The Cloudant URL is : ",cloudant_credentials.url);
     
     // Connect to the pomopaycustomers DB
+    var indexlength=0;
     var Cloudant = require('@cloudant/cloudant');
     var cloudant = Cloudant({url: cloudant_credentials.url});
     var pomopaycustomersdb = cloudant.db.use('pomopaycustomers');
@@ -104,7 +105,7 @@ var registerAccount=function(req,res){
 		
 		if(body){
 			var isMatch = false;
-			var indexlength=0;
+			
 			
 			//var requestedCustomer = req.body.fname + " " + req.body.lname;
 			var responsebody = JSON.parse(body);
@@ -137,6 +138,7 @@ var registerAccount=function(req,res){
 				}
 				else
 				{
+					indexlength=0;
 					firstaccount=true;
 					}
 				//res.send(firstaccount);
@@ -146,7 +148,7 @@ var registerAccount=function(req,res){
 					 	if(err){
 					 		res.status(500).send({"status":"FAILURE","description":err});
 					 	}else{
-					 		res.send(data.id);
+					 		//res.send(data.id);
 					 		
 					 		/*customerdata.accounts[indexlength].accid=data.id;
 					 		customerdata.accounts[indexlength].accountnumber= data.accountnumber;
