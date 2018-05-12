@@ -108,7 +108,7 @@ var registerAccount=function(req,res){
 			
 			//var requestedCustomer = req.body.fname + " " + req.body.lname;
 			var responsebody = JSON.parse(body);
-			res.send(responsebody);
+			//res.send(responsebody);
 			if(responsebody.Data.length > 0){
 				for(var dataindex in responsebody.Data){
 					var nextCustomer = responsebody.Data[dataindex].Account.Owners[0]; 
@@ -118,6 +118,7 @@ var registerAccount=function(req,res){
 						break;
 					}
 				}
+				res.send(isMatch);
 				if(isMatch){
 					if(customerdata.accounts!==undefined && customerdata.accounts.length>0){
 						indexlength=customerdata.accounts.length;
