@@ -90,7 +90,7 @@ var registerAccount=function(req,res){
       		require('deasync').runLoopOnce();
     		}
 	//res.send(customerdata);
-	var url="http://ob-api.innovationwide.co.uk/api/accounts"+req.body.accountnumber;
+	var url="http://ob-api.innovationwide.co.uk/api/accounts/"+req.body.accountnumber;
 	
 	const options = {
 			hostname:"ob-api.innovationwide.co.uk",
@@ -108,7 +108,7 @@ var registerAccount=function(req,res){
 			
 			//var requestedCustomer = req.body.fname + " " + req.body.lname;
 			var responsebody = JSON.parse(body);
-			res.send(responsebody);
+			//res.send(responsebody);
 			if(responsebody.Data.length > 0){
 				for(var dataindex in responsebody.Data){
 					var nextCustomer = responsebody.Data[dataindex].Account.Owners[0]; 
