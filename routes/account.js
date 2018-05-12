@@ -57,8 +57,32 @@ var getAccountList =  function(req, res) {
 };
 
 var registerAccount=function(req,res){
+	var a="http://ob-api.innovationwide.co.uk/api/accounts"+req.data.accountnumber;
+	res.send(a);
+	/*const options = {
+			hostname:"ob-api.innovationwide.co.uk",
+			uri:"http://ob-api.innovationwide.co.uk/api/accounts",
+			method:"GET"
+	};
+
+	var httprequest = require("request");
+	httprequest(options, function(error, response, body){
+		//console.log("ERROR => ",error);
+		//console.log("RESPONSE => ",response);
+		//console.log("BODY => ",body);
+		
+		if(body){
+			
+			
+			
+	}else{
+			res.status(500).send({"status":"FAILURE","description":"Could not fetch accounts from ob-api"});
+		}
+			
+		
+	});
 	
-	var vcap_env = JSON.parse(process.env.VCAP_SERVICES);
+	/*var vcap_env = JSON.parse(process.env.VCAP_SERVICES);
     var cloudant_credentials = vcap_env['cloudantNoSQLDB'][0]['credentials'];
     console.log("The Cloudant URL is : ",cloudant_credentials.url);
     
@@ -77,7 +101,7 @@ var registerAccount=function(req,res){
 				    });
 	
 	pomopaycustomersdb.up
-	//res.status(200).send({"status":"OK","description":"The account registered succesfully"});
+	//res.status(200).send({"status":"OK","description":"The account registered succesfully"});*/
 	return;
 };
 
