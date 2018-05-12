@@ -28,8 +28,9 @@ var getAccountList =  function(req, res) {
 					console.log("The accounts data is -> ",accdata);
 					
 					//var accountlist2=[];
-					accountlist.push([{"accountnumber":accdata.accountnumber
-											, "accid":accdata._id}]);
+					//accountlist.push([{"accountnumber":accdata.accountnumber
+					//						, "accid":accdata._id}]);
+					accountlist.push(accdata.accountnumber);
 					//res.send({"accounts":accountlist});
 										
 				}
@@ -37,7 +38,7 @@ var getAccountList =  function(req, res) {
 			});
 			
 		}
-		while(data.account.length!==accountlist.length) {
+		while(data.account.length!=accountlist.length) {
       	require('deasync').runLoopOnce();
     		}
 	res.send({"accounts":accountlist});
