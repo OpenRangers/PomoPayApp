@@ -146,7 +146,7 @@ var registerAccount=function(req,res){
 					 	if(err){
 					 		res.status(500).send({"status":"FAILURE","description":err});
 					 	}else{
-					 		res.send(data.id);
+					 		//res.send(data.id);
 					 		customerdata.accounts[indexlength].accid=data.id;
 					 		customerdata.accounts[indexlength].accountnumber= data.accountnumber;
 					 		customerdata.accounts[indexlength].bankname = data.bankname;
@@ -160,7 +160,7 @@ var registerAccount=function(req,res){
 					 		{
 					 			pomopaycellphonesdb.insert({
   											"id": customerdata.cellphone,
-  											"accid":data._id ,
+  											"accid":data.id ,
 										    "bankname": data.bankname,
   											"accountnumber": data.accountnumber
 											}, function(cellerr, celldata) {
