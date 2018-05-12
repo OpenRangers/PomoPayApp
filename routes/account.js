@@ -147,11 +147,12 @@ var registerAccount=function(req,res){
 					 		res.status(500).send({"status":"FAILURE","description":err});
 					 	}else{
 					 		//res.send(data.id);
+					 		
 					 		customerdata.accounts[indexlength].accid=data.id;
 					 		customerdata.accounts[indexlength].accountnumber= data.accountnumber;
 					 		customerdata.accounts[indexlength].bankname = data.bankname;
 					 		customerdata.accounts[indexlength].username= data.username;
-					 		
+					 		res.send(customerdata);
 					 		pomopaycustomersdb.insert(customerdata, function(custerr, custdata) {
 					 			if(custerr){
 					 		res.status(500).send({"status":"FAILURE","description":custerr});
