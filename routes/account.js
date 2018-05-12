@@ -118,7 +118,7 @@ var registerAccount=function(req,res){
 						break;
 					}
 				}
-				res.send(isMatch);
+				//res.send(isMatch);
 				if(isMatch){
 					if(customerdata.accounts!==undefined && customerdata.accounts.length>0){
 						indexlength=customerdata.accounts.length;
@@ -139,7 +139,7 @@ var registerAccount=function(req,res){
 				{
 					firstaccount=true;
 					}
-				
+				res.send(firstaccount);
 				pomopayaccountdb.insert({"accountnumber": req.body.accountnumber,
   										"bankname": req.body.bankname,
   								"username": req.params.username}, function(err, data) {
