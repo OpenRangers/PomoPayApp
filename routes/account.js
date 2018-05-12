@@ -30,7 +30,7 @@ var getAccountList =  function(req, res) {
 					
 					//var accountlist2=[];
 					accountlist.push({"accountnumber":accdata.accountnumber
-											, "accid":accdata._id});
+											, "accid":accdata._id , "bankname":accdata.bankname});
 					//accountlist.push(accdata.accountnumber);
 					done=true;
 					//res.send({"accounts":accountlist});
