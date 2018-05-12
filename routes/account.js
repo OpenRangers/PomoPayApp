@@ -57,7 +57,7 @@ var getAccountList =  function(req, res) {
 };
 
 var registerAccount=function(req,res){
-	var a="http://ob-api.innovationwide.co.uk/api/accounts"+req.data.accountnumber;
+	var a="http://ob-api.innovationwide.co.uk/api/accounts"+req.body.accountnumber;
 	res.send(a);
 	/*const options = {
 			hostname:"ob-api.innovationwide.co.uk",
