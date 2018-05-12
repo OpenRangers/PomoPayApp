@@ -1,8 +1,4 @@
-/*eslint-disable semi */
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 var getAccountList =  function(req, res) {
 	
 	var vcap_env = JSON.parse(process.env.VCAP_SERVICES);
@@ -18,22 +14,21 @@ var getAccountList =  function(req, res) {
 	
 	pomopaycustomersdb.get(req.params.username, function(err, data){
 		if(err){
-			res.status(500).send(err);
+			res.status(500).send({"status":"FAILURE", "description":err});
 		}else{
-			for (var index in data.account){
+			if(data.accounts.length>0){
+			for (var index in data.accounts){
 				var done=false;
-			pomopayaccountdb.get(data.account[index], function(accerr, accdata){
+			pomopayaccountdb.get(data.accounts[index].accid, function(accerr, accdata){
 				if(accerr){
-					res.status(500).send(accerr);
+					res.status(500).send({"status":"FAILURE", "description":accerr});
 				}else{
-					console.log("The accounts data is -> ",accdata);
 					
-					//var accountlist2=[];
 					accountlist.push({"accountnumber":accdata.accountnumber
 											, "accid":accdata._id , "bankname":accdata.bankname});
-					//accountlist.push(accdata.accountnumber);
+					
 					done=true;
-					//res.send({"accounts":accountlist});
+					
 										
 				}
 				
@@ -43,11 +38,11 @@ var getAccountList =  function(req, res) {
     		}
 		}
 		
-	res.send({"accounts":accountlist});
-			//var accdata=JSON.parse(dd);
-			//accountlist.push({"accounts":[{"accountnumber":accdata.accountnumber
-			//								, "accid":accdata._id}]});
-			
+	res.status(200).send({"accounts":accountlist});
+	}	
+	else{
+		res.status(404).send({"status":"INVALIDDATA", "description":"No accounts registered for this customer"});
+	}
 		}
 	});
 	
