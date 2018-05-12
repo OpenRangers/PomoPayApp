@@ -16,7 +16,7 @@ var getAccountList =  function(req, res) {
 		if(err){
 			res.status(500).send({"status":"FAILURE", "description":err});
 		}else{
-			if(data.accounts.length>0){
+			if(data.accounts!==undefined && data.accounts.length>0){
 			for (var index in data.accounts){
 				var done=false;
 			pomopayaccountdb.get(data.accounts[index].accid, function(accerr, accdata){
@@ -41,7 +41,7 @@ var getAccountList =  function(req, res) {
 	res.status(200).send({"accounts":accountlist});
 	}	
 	else{
-		res.status(404).send({"status":"INVALIDDATA", "description":"No accounts registered for this customer"});
+		res.status(404).send({"status":"INVALIDDATA" , "description":"No accounts registered for this customer"});
 	}
 		}
 	});
