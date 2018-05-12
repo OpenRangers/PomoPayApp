@@ -29,9 +29,9 @@ var getAccountList =  function(req, res) {
 					console.log("The accounts data is -> ",accdata);
 					
 					//var accountlist2=[];
-					//accountlist.push([{"accountnumber":accdata.accountnumber
-					//						, "accid":accdata._id}]);
-					accountlist.push(accdata.accountnumber);
+					accountlist.push({"accountnumber":accdata.accountnumber
+											, "accid":accdata._id});
+					//accountlist.push(accdata.accountnumber);
 					done=true;
 					//res.send({"accounts":accountlist});
 										
