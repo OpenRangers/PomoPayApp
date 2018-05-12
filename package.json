@@ -1,32 +1,33 @@
 {
-  "name": "pomopayapp",
-  "version": "1.0.0",
-  "description": "A QRCode payments app",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/OpenRangers/PomoPayApp.git"
-  },
-  "keywords": [
-    "PomoPay",
-    "QRCode",
-    "Payments",
-    "OpenBanking"
-  ],
-  "author": "OpenRangers",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/OpenRangers/PomoPayApp/issues"
-  },
-  "homepage": "https://github.com/OpenRangers/PomoPayApp#readme",
-  "dependencies": {
-    "@cloudant/cloudant": "^2.1.0",
-    "async": "^2.6.0",
-    "body-parser": "^1.18.2",
-    "express": "^4.16.3",
-    "request": "^2.85.0"
-  }
+	"name": "pomopayapp",
+	"version": "1.0.0",
+	"description": "A QRCode payments app",
+	"main": "server.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/OpenRangers/PomoPayApp.git"
+	},
+	"keywords": [
+		"PomoPay",
+		"QRCode",
+		"Payments",
+		"OpenBanking"
+	],
+	"author": "OpenRangers",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/OpenRangers/PomoPayApp/issues"
+	},
+	"homepage": "https://github.com/OpenRangers/PomoPayApp#readme",
+	"dependencies": {
+		"@cloudant/cloudant": "^2.1.0",
+		"async": "^2.6.0",
+		"body-parser": "^1.18.2",
+		"express": "^4.16.3",
+		"request": "^2.85.0",
+		"deasync": "latest"
+	}
 }

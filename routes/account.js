@@ -21,6 +21,7 @@ var getAccountList =  function(req, res) {
 			res.status(500).send(err);
 		}else{
 			for (var index in data.account){
+				var done=false;
 			pomopayaccountdb.get(data.account[index], function(accerr, accdata){
 				if(accerr){
 					res.status(500).send(accerr);
@@ -31,16 +32,17 @@ var getAccountList =  function(req, res) {
 					//accountlist.push([{"accountnumber":accdata.accountnumber
 					//						, "accid":accdata._id}]);
 					accountlist.push(accdata.accountnumber);
+					done=true;
 					//res.send({"accounts":accountlist});
 										
 				}
 				
 			});
-			
-		}
-		while(data.account.length!=accountlist.length) {
-      	require('deasync').runLoopOnce();
+			while(!done) {
+      		require('deasync').runLoopOnce();
     		}
+		}
+		
 	res.send({"accounts":accountlist});
 			//var accdata=JSON.parse(dd);
 			//accountlist.push({"accounts":[{"accountnumber":accdata.accountnumber
