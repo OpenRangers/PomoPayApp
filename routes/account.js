@@ -83,13 +83,11 @@ var registerAccount=function(req,res){
  		requestedCustomer = data.fname + " " + data.lname;
  		customerdata=data;
  		done =true;
- 	}
  	
-	});
 	
-	while(!done) {
+	/*while(!done) {
       		require('deasync').runLoopOnce();
-    		}
+    		}*/
 	//res.send(customerdata);
 	var url="http://ob-api.innovationwide.co.uk/api/accounts/"+req.body.accountnumber;
 	
@@ -196,7 +194,7 @@ var registerAccount=function(req,res){
 					 	}
 				    });
 				
-			}else{res.status(404).send({"status":"INVALIDDATA", "description":"entered account is not of this bank"});}	
+			}else{res.status(404).send({"status":"INVALIDDATA", "description":"entered account is not of mentioned bank"});}	
 
 				}else{
 					res.status(404).send({"status":"INVALIDDATA", "description":"Customer name on the account doesn't match customer profile on the app"});
@@ -232,6 +230,9 @@ var registerAccount=function(req,res){
 	
 	pomopaycustomersdb.up
 	//res.status(200).send({"status":"OK","description":"The account registered succesfully"});*/
+	}
+ 	
+	});
 	return;
 };
 
