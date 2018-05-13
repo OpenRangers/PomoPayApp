@@ -153,8 +153,8 @@ var registerAccount=function(req,res){
 					 		var accountlist=[];
 					 		if (customerdata.accounts!==undefined){
 					 		accountlist=customerdata.accounts;}
-					 		accountlist.push({"accid":data.id,"accountnumber":data.accountnumber,"bankname":data.bankname
-					 					,"username":data.username});
+					 		accountlist.push({"accid":data.id,"accountnumber":req.body.accountnumber,"bankname":req.body.bankname
+					 					,"username":req.params.username});
 					 		customerdata.accounts=accountlist;
 					 		/*customerdata.accounts[ilength].accid=data.id;
 					 		customerdata.accounts[ilength].accountnumber= data.accountnumber;
@@ -168,10 +168,10 @@ var registerAccount=function(req,res){
 					 		if(firstaccount)
 					 		{
 					 			pomopaycellphonesdb.insert({
-  											"id": customerdata.cellphone,
+  											"_id": customerdata.cellphone,
   											"accid":data.id ,
-										    "bankname": data.bankname,
-  											"accountnumber": data.accountnumber
+										    "bankname": req.body.bankname,
+  											"accountnumber": req.body.accountnumber
 											}, function(cellerr, celldata) {
 							if(cellerr){
 					 		res.status(500).send({"status":"FAILURE","description":cellerr});
