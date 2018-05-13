@@ -133,6 +133,7 @@ var registerAccount=function(req,res){
 					
 					if(accountmatch)
 					{res.status(400).send({"status":"INVALIDDATA", "description":"Duplicate registration, already registered"});
+					return;
 					}
 					
 				}
