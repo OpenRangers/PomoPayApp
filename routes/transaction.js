@@ -39,8 +39,8 @@ var postTransaction = function(req, res) {
 			//doc=data;
 			console.log("data for payer is:"+data);
 			//console.log("data:"+JSON.stringfy(doc));
-			console.log("account:"+data.accounts);
-			console.log("account length is"+data.accounts.length);
+			//console.log("account:"+data.accounts);
+			//console.log("account length is"+data.accounts.length);
 			if(data.accounts!==undefined && data.accounts.length>0){
 				var found = 0;
 				var myacc;
