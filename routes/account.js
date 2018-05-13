@@ -120,7 +120,11 @@ var registerAccount=function(req,res){
 					}
 				}
 				//res.send(isMatch);
+				var obbankname = responsebody.Data[0].Account.Account.SecondaryIdentification; 
+				var ipbankname=req.body.bankname;
+				
 				if(isMatch){
+					if(obbankname.toLowerCase()===ipbankname.toLowerCase()){
 					if(customerdata.accounts!==undefined && customerdata.accounts.length>0){
 						ilength=customerdata.accounts.length;
 					for(var index in customerdata.accounts){
@@ -192,7 +196,8 @@ var registerAccount=function(req,res){
 					 	}
 				    });
 				
-					
+			}else{res.status(404).send({"status":"INVALIDDATA", "description":"entered account is not of this bank"});}	
+
 				}else{
 					res.status(404).send({"status":"INVALIDDATA", "description":"Customer name on the account doesn't match customer profile on the app"});
 				}
