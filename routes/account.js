@@ -150,12 +150,17 @@ var registerAccount=function(req,res){
 					 		res.status(500).send({"status":"FAILURE","description":err});
 					 	}else{
 					 		//res.send(data.id);
-					 		
-					 		customerdata.accounts[ilength].accid=data.id;
+					 		var accountlist=[];
+					 		if (customerdata.accounts!==undefined){
+					 		accountlist=customerdata.accounts;}
+					 		accountlist.push({"accid":data.id,"accountnumber":data.accountnumber,"bankname":data.bankname
+					 					,"username":data.username});
+					 		customerdata.accounts=accountlist;
+					 		/*customerdata.accounts[ilength].accid=data.id;
 					 		customerdata.accounts[ilength].accountnumber= data.accountnumber;
 					 		customerdata.accounts[ilength].bankname = data.bankname;
 					 		customerdata.accounts[ilength].username= data.username;
-					 		res.send(ilength);
+					 		res.send(ilength);*/
 					 		pomopaycustomersdb.insert(customerdata, function(custerr, custdata) {
 					 			if(custerr){
 					 		res.status(500).send({"status":"FAILURE","description":custerr});
