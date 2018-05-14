@@ -35,6 +35,12 @@ var appRouter = function(app) {
 		var transaction = require("./transaction.js");
 		transaction.postTransaction(req,res);
 	});
+	
+	app.get('/customer/transaction/list/:username', function(req, res){
+		var transaction = require("./transaction.js");
+		transaction.getTransactionList(req,res);
+
+	});
 };
 
 module.exports = appRouter;

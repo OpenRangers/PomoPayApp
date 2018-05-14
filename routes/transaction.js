@@ -23,7 +23,6 @@ var postTransaction = function(req, res) {
 	var remarks = body.remarks;
 	var payeeresult = {status:1000, value:"test1"};
 	var payerresult = {status:2000, value:"test2"};
-	//var payeruserid= '1122';
 	var payeeuname;
 	var doc;
 
@@ -31,17 +30,12 @@ var postTransaction = function(req, res) {
 		console.log("payer name"+payeruname);
 		if(err)
 		{
-			console.log("payer name"+payeruname);
-			console.log("error is"+err);
-			payerresult = {status:404, value:err};
+			res.status(404).send({"status":"INVALIDDATA", "description":"Payer or Payee information is invalid"});
 
 		}else
 		{
 			//doc=data;
 			console.log("data for payer is:"+data);
-			//console.log("data:"+JSON.stringfy(doc));
-			//console.log("account:"+data.accounts);
-			//console.log("account length is"+data.accounts.length);
 			if(data.accounts!==undefined && data.accounts.length>0){
 				var found = 0;
 				var myacc;
@@ -62,7 +56,7 @@ var postTransaction = function(req, res) {
 				}
 				if (found == 1) {
 
-					pomopaytransactionsdb.get(payeraccid , function(err, data) {
+					pomopaytransactionsdb.get(payeruname , function(err, data) {
 						if(err)
 						{
 							console.log("error+++++++"+err);
@@ -71,232 +65,291 @@ var postTransaction = function(req, res) {
 							{
 								console.log("inside if-first time insert");
 								//  insert the incoming data into the DB
-								pomopaytransactionsdb.insert({ _id: payeraccid , "transactions": [{ accountnumber: myacc.accountnumber,bankname: myacc.bankname,amount: amount, Type: 'Debit', remarks: remarks, date: Date() }] }, function(err, data) {
+								pomopaytransactionsdb.insert({ _id: payeruname , "transactions": [{ accountnumber: myacc.accountnumber,bankname: myacc.bankname,amount: amount, Type: 'Debit', remarks: remarks, date: Date() }] }, function(err, data) {
 
 									if(err)
 									{
 										payerresult = {status:500, value:err};
+										res.status(500).send({"status":"FAILURE", "description":err});
 									}
 									else
 									{
+										pomopaycustomersdb.get(payeeuname, function(err, data) {
+											if(err)
+											{
+												console.log("error is"+err);
+												payeeresult = {status:404, value:err};
+											}else
+											{
+												//doc=data;
+												console.log("data for payee is:"+data);
+												//console.log("data:"+JSON.stringfy(doc));
+												//console.log("account:"+data.accounts);
+												//console.log("account length is"+data.accounts.length);
+												if(data.accounts!==undefined && data.accounts.length>0){
 
-										payerresult = {status:200, value:data};									
+													var found = 0;
+													var myacc;
+													var index = 0;
+													for (index = 0; index < data.accounts.length; index++) {
+														console.log("index="+index);
+														console.log("accid:"+data.accounts[index].accid );
+														console.log("payeeid:"+payeeaccid);
+														if (data.accounts[index].accid == payeeaccid)
+														{
+															found = 1;
+															myacc=data.accounts[index];
+															console.log("We have found at index:" + index);
+															break;
+														} else {
+															console.log("We did not find at index:" + index);
+														}
+													}
+													if (found == 1) {
+
+														pomopaytransactionsdb.get(payeeuname , function(err, data) {
+
+															if(err)
+															{
+																console.log("error+++++++"+err);
+																payeeresult = {status:404, value:err};
+																if(err.statusCode == 404 && err.reason == "missing")
+																{
+																	console.log("inside if-first time insert");
+																	//  insert the incoming data into the DB
+																	pomopaytransactionsdb.insert({ _id: payeeuname , "transactions": [{ accountnumber: myacc.accountnumber,bankname: myacc.bankname,amount: amount, Type: 'Debit', remarks: remarks, date: Date() }] }, function(err, data) {
+
+																		if(err)
+																		{
+
+																			res.status(500).send({"status":"FAILURE", "description":err});
+
+																		}
+																		else
+																		{
+																			payeeresult = {status:200, value:data};
+																		}
+																	});
+																}
+																else{
+																	payeeresult = {status:500, value:err};
+																}
+															}
+
+
+															else
+															{
+																console.log("inside else:payeeid is already present");
+																doc=data ;
+																//var index = doc.transactions.length;
+																doc.transactions.push({accountnumber: myacc.accountnumber,bankname: myacc.bankname,amount: amount, Type: 'Debit', remarks: remarks, date: Date() });
+																pomopaytransactionsdb.insert(doc,function(err, data) {
+
+																	if(err)
+																	{
+
+																		res.status(500).send({"status":"FAILURE", "description":err});
+																	}
+																	else
+																	{
+																		payeeresult = {status:200, value:data};
+																	}
+																});
+															}
+														});
+
+													}
+													else
+													{
+														payeeresult = {status:500, value:err};
+													}
+												}
+
+												else
+												{
+													payeeresult = {status:500, value:err};
+												}
+											}
+
+										}); 									
 									}
 								});
 							}
-							else{								
-								payerresult = {status:500, value:err};
+							else {								
 
-							}
-						}
-						else
-						{
-							console.log("inside else:payerid is already present");
-							doc=data ;
-							doc.transactions.push({accountnumber: myacc.accountnumber,bankname: myacc.bankname,amount: amount, Type: 'Debit', remarks: remarks, date: Date() });
-							pomopaytransactionsdb.insert(doc,function(err, data) {
-
-								if(err)
-								{								
-									payerresult = {status:500, value:err};								
-								}
-								else
-								{
-									pomopaytransactionsdb.get(payeraccid, function(err, data) {
-										if(err){
-											payerresult = {status:500, value:err};
-											//payeeresult["status"] = 500;
-											//payeeresult["value"] = err;
-										}
-										else
-										{
-											//console.log('Error:', err);
-											payerresult = {status:200, value:data};
-											//console.log("payee status"+payeeresult["status"]);
-											//console.log("payee value"+payeeresult["value"]);
-											//payeeresult["value"] = data;
-											//payeeresult["status"] = 200;
-											console.log('Data for payer------:', data);
-										}
-									});
-
-									payerresult = {status:200, value:data};
-								}
-							});
-						}
-					});
-				}
-
-				else{
-					payerresult = {status:500, value:err};
-				}
-
-			}
-			else{
-				payerresult = {status:500, value:err};
-			}
-		}
-	});
-
-	console.log("post transaction for payee started");
-
-	pomopayaccountsdb.get(payeeaccid, function(err,data){
-		if(err){
-			payeeresult = {status:404, value:err};
-		}
-		else
-		{
-			payeeuname= data.username;
-			payeeresult = {status:200, value:data};
-			console.log("name found"+payeeuname);
-		}
-	});
-
-	pomopaycustomersdb.get(payeeuname, function(err, data) {
-		if(err)
-		{
-			console.log("error is"+err);
-			payeeresult = {status:404, value:err};
-		}else
-		{
-			//doc=data;
-			console.log("data for payee is:"+data);
-			//console.log("data:"+JSON.stringfy(doc));
-			//console.log("account:"+data.accounts);
-			//console.log("account length is"+data.accounts.length);
-			if(data.accounts!==undefined && data.accounts.length>0){
-
-				var found = 0;
-				var myacc;
-				var index = 0;
-				for (index = 0; index < data.accounts.length; index++) {
-					console.log("index="+index);
-					console.log("accid:"+data.accounts[index].accid );
-					console.log("payeeid:"+payeeaccid);
-					//console.log("accid:"+data.accounts[index].accid );
-					if (data.accounts[index].accid == payeeaccid)
-					{
-						found = 1;
-						myacc=data.accounts[index];
-						console.log("We have found at index:" + index);
-						break;
-					} else {
-						console.log("We did not find at index:" + index);
-					}
-				}
-				if (found == 1) {
-
-					pomopaytransactionsdb.get(payeeaccid , function(err, data) {
-
-						if(err)
-						{
-							console.log("error+++++++"+err);
-							payeeresult = {status:404, value:err};
-							if(err.statusCode == 404 && err.reason == "missing")
-							{
-								console.log("inside if-first time insert");
-								//  insert the incoming data into the DB
-								pomopaytransactionsdb.insert({ _id: payeeaccid , "transactions": [{ accountnumber: myacc.accountnumber,bankname: myacc.bankname,amount: amount, Type: 'Debit', remarks: remarks, date: Date() }] }, function(err, data) {
+								console.log("inside else:payerid is already present");
+								doc=data ;
+								doc.transactions.push({accountnumber: myacc.accountnumber,bankname: myacc.bankname,amount: amount, Type: 'Debit', remarks: remarks, date: Date() });
+								pomopaytransactionsdb.insert(doc,function(err, data) {
 
 									if(err)
-									{
-										payeeresult = {status:500, value:err};
-
+									{								
+										payerresult = {status:500, value:err};								
 									}
 									else
 									{
-										payeeresult = {status:200, value:data};
+										pomopayaccountsdb.get(payeeaccid, function(err,data){
+											if(err){
+												payeeresult = {status:404, value:err};
+											}
+											else
+											{
+												payeeuname= data.username;
+												payeeresult = {status:200, value:data};
+												console.log("name found"+payeeuname);
+											}
+										});
+
+										pomopaycustomersdb.get(payeeuname, function(err, data) {
+											if(err)
+											{
+												console.log("error is"+err);
+												payeeresult = {status:404, value:err};
+											}else
+											{
+												//doc=data;
+												console.log("data for payee is:"+data);
+
+												if(data.accounts!==undefined && data.accounts.length>0){
+
+													var found = 0;
+													var myacc;
+													var index = 0;
+													for (index = 0; index < data.accounts.length; index++) {
+														console.log("index="+index);
+														console.log("accid:"+data.accounts[index].accid );
+														console.log("payeeid:"+payeeaccid);
+														//console.log("accid:"+data.accounts[index].accid );
+														if (data.accounts[index].accid == payeeaccid)
+														{
+															found = 1;
+															myacc=data.accounts[index];
+															console.log("We have found at index:" + index);
+															break;
+														} else {
+															console.log("We did not find at index:" + index);
+														}
+													}
+													if (found == 1) {
+
+														pomopaytransactionsdb.get(payeeuname , function(err, data) {
+
+															if(err)
+															{
+																console.log("error+++++++"+err);
+																payeeresult = {status:404, value:err};
+																if(err.statusCode == 404 && err.reason == "missing")
+																{
+																	console.log("inside if-first time insert");
+																	//  insert the incoming data into the DB
+																	pomopaytransactionsdb.insert({ _id: payeeuname , "transactions": [{ accountnumber: myacc.accountnumber,bankname: myacc.bankname,amount: amount, Type: 'Debit', remarks: remarks, date: Date() }] }, function(err, data) {
+
+																		if(err)
+																		{
+																			res.status(500).send({"status":"FAILURE", "description":err});
+
+																		}
+																		else
+																		{
+																			payeeresult = {status:200, value:data};
+																		}
+																	});
+																}
+																else{
+																	payeeresult = {status:500, value:err};
+																}
+															}
+
+
+															else
+															{
+																console.log("inside else:payeeid is already present");
+																doc=data ;
+
+																doc.transactions.push({accountnumber: myacc.accountnumber,bankname: myacc.bankname,amount: amount, Type: 'Debit', remarks: remarks, date: Date() });
+																pomopaytransactionsdb.insert(doc,function(err, data) {
+
+																	if(err)
+																	{
+																		res.status(500).send({"status":"FAILURE", "description":err});
+																	}
+																	else
+																	{
+																		payeeresult = {status:200, value:data};
+																	}
+																});
+															}
+														});
+
+													}
+													else
+													{
+														payeeresult = {status:500, value:err};
+													}
+												}
+
+												else
+												{
+													payeeresult = {status:500, value:err};
+												}
+											}
+
+										});
 									}
 								});
-							}
-							else{
-								payeeresult = {status:500, value:err};
-							}
+
+
+							}							
 						}
 
+						res.status(200).send({status:"OK","description":"The payment posted succesfully"});
 
-						else
-						{
-							console.log("inside else:payeeid is already present");
-							doc=data ;
-							//var index = doc.transactions.length;
-							doc.transactions.push({accountnumber: myacc.accountnumber,bankname: myacc.bankname,amount: amount, Type: 'Debit', remarks: remarks, date: Date() });
-							pomopaytransactionsdb.insert(doc,function(err, data) {
-
-								if(err)
-								{
-									payeeresult = {status:500, value:err};
-								}
-								else
-								{
-									payeeresult = {status:200, value:data};
-								}
-							});
-						}
 					});
+				}
 
-				}
-				else
-				{
-					payeeresult = {status:500, value:err};
-				}
+
 			}
 
-			else
-			{
-				payeeresult = {status:500, value:err};
-			}
 		}
-
-	}); 
-
-	/*if (payeeresult["status"] == 200 && payerresult["status"] == 200) {
-		console.log("check");
-		res.status(200).send({status:"OK","description":"Post transaction successfully completed"});
-
-	} else {
-		if (payeeresult["status"] == 200) {
-			console.log("check--1");
-			res.status(payerresult["status"]).send({status:"OK","description":"Post transaction failed"});
-
-		} else if (payerresult["status"] == 200) {
-			console.log("check--2");
-			res.status(payeeresult["status"]).send({status:"OK","description":"Post transaction failed"});
-
-		} else {
-			console.log("check--3");		
-			res.status(payerresult["status"]).send({status:"OK","description":"Post transaction failed"});
-
-		}
-	}*/
-
-
+	});
 };
 
-/*var getTransaction = function(req, res) {
+var getTransaction =  function(req, res) {
 
-// Parse the VCAP Environment to get the Cloudant URL
-var vcap_env = JSON.parse(process.env.VCAP_SERVICES);
-var cloudant_credentials = vcap_env['cloudantNoSQLDB'][0]['credentials'];
-console.log("The Cloudant URL is : ",cloudant_credentials.url);
+	var vcap_env = JSON.parse(process.env.VCAP_SERVICES);
+	var cloudant_credentials = vcap_env['cloudantNoSQLDB'][0]['credentials'];
+	console.log("The Cloudant URL is : ",cloudant_credentials.url);
 
-// Connect to the pomopaytransactions DB
-var Cloudant = require('@cloudant/cloudant');
-var cloudant = Cloudant({url: cloudant_credentials.url});
-var pomopaytransactionsdb = cloudant.db.use('pomopaytransactions');
+	// Connect to the pomopaycustomers DB
+	var Cloudant = require('@cloudant/cloudant');
+	var cloudant = Cloudant({url: cloudant_credentials.url});
+	var pomopaycustomersdb = cloudant.db.use('pomopaycustomers');
+	var transactionlist =[];
 
-// Read the document from the database
-pomopaytransactionsdb.get(req.params.username, function(err, data) {
+	pomopaycustomersdb.get(req.params.username, function(err, data){
+		if(err){
+			res.status(500).send({"status":"FAILURE", "description":err});
+		}else{
+			if(data.transactions!==undefined && data.transactions.length>0){
+				for (var index in data.transactions){
 
-	if(err){
-		res.status(500).send(err);
-	}else{
-		res.status(200).send(data);
-	}
+					transactionlist.push({"accountnumber":data.transactions[index].accountnumber
+						,"bankname":data.transactions[index].bankname, "amount":data.transactions[index].amount, "type":data.transactions[index].Type, "remarks":data.transactions[index].remarks, "date":data.transactions[index].date});
 
-return;
+				}
 
-});
-}; */
+
+				res.status(200).send({"transactions":transactionlist});
+			}	
+			else{
+				res.status(404).send({"status":"INVALIDDATA" , "description":"No transactions found"});
+			}
+		}
+	});
+
+	return;
+};
+
 
 exports.postTransaction = postTransaction;
+exports.getTransaction = getTransaction;
