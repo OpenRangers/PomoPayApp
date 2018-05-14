@@ -323,10 +323,10 @@ var getTransaction =  function(req, res) {
 	// Connect to the pomopaycustomers DB
 	var Cloudant = require('@cloudant/cloudant');
 	var cloudant = Cloudant({url: cloudant_credentials.url});
-	var pomopaycustomersdb = cloudant.db.use('pomopaycustomers');
+	var pomopaytransactionsdb = cloudant.db.use('pomopaytransactions');
 	var transactionlist =[];
 
-	pomopaycustomersdb.get(req.params.username, function(err, data){
+	pomopaytransactionsdb.get(req.params.username, function(err, data){
 		if(err){
 			res.status(500).send({"status":"FAILURE", "description":err});
 		}else{
