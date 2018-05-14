@@ -38,7 +38,7 @@ var appRouter = function(app) {
 	
 	app.get('/customer/transaction/list/:username', function(req, res){
 		var transaction = require("./transaction.js");
-		transaction.getTransactionList(req,res);
+		transaction.getTransaction(req,res);
 
 	});
 };
