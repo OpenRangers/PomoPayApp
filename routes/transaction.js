@@ -328,7 +328,7 @@ var getTransaction =  function(req, res) {
 
 	pomopaycustomersdb.get(req.params.username, function(err, data){
 		if(err){
-			res.status(500).send({"status":"FAILURE", "description":"no data found"});
+			res.status(500).send({"status":"FAILURE", "description":err});
 		}else{
 			if(data.transactions!==undefined && data.transactions.length>0){
 				for (var index in data.transactions){
@@ -339,10 +339,10 @@ var getTransaction =  function(req, res) {
 				}
 
 
-				res.status(200).send({"transactions":data.transactions});
+				res.status(200).send({"transactions":transactionlist});
 			}	
 			else{
-				res.status(404).send({"status":"INVALIDDATA" , "description":data.transactions});
+				res.status(404).send({"status":"INVALIDDATA" , "description":"No transactions found"});
 			}
 		}
 	});
