@@ -342,7 +342,7 @@ var getTransaction =  function(req, res) {
 				res.status(200).send({"transactions":data.transactions});
 			}	
 			else{
-				res.status(404).send({"status":"INVALIDDATA" , "description":"No transactions found"});
+				res.status(404).send({"status":"INVALIDDATA" , "description":data.transactions});
 			}
 		}
 	});
