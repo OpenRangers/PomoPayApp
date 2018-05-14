@@ -328,7 +328,7 @@ var getTransaction =  function(req, res) {
 
 	pomopaycustomersdb.get(req.params.username, function(err, data){
 		if(err){
-			res.status(500).send({"status":"FAILURE", "description":err});
+			res.status(500).send({"status":"FAILURE", "description":"no data found"});
 		}else{
 			if(data.transactions!==undefined && data.transactions.length>0){
 				for (var index in data.transactions){
