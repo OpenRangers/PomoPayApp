@@ -16,7 +16,7 @@ var postTransaction = function(req, res) {
 
 	// Read the document from the database
 	var payeruname= body.payerusername;
-	var payeraccid = body._id;
+	var payeraccid = body.payeraccid;
 	var amount = body.amount;
 	var payeeaccid = body.payeeaccid;
 	//var payee_cellphone = req.body.payeecellphone;
