@@ -1,6 +1,6 @@
 var postTransaction = function(req, res) {
 
-
+	console.log("=======+++++request body:=======+++++",req.body);
 	// Parse the VCAP Environment to get the Cloudant URL
 	var vcap_env = JSON.parse(process.env.VCAP_SERVICES);
 	var cloudant_credentials = vcap_env['cloudantNoSQLDB'][0]['credentials'];
@@ -25,6 +25,7 @@ var postTransaction = function(req, res) {
 	var payerresult = {status:2000, value:"test2"};
 	var payeeuname;
 	var doc;
+	
 
 	pomopaycustomersdb.get(payeruname , function(err, data) {
 		console.log("payer name"+payeruname);
