@@ -21,9 +21,9 @@ var postTransaction = function(req, res) {
 	var payeeaccid = body.payeeaccid;
 	//var payee_cellphone = req.body.payeecellphone;
 	var remarks = body.remarks;
-	var payeeresult = {status:1000, value:"test1"};
-	var payerresult = {status:2000, value:"test2"};
-	var payeeuname;
+	//var payeeresult = {status:1000, value:"test1"};
+	//var payerresult = {status:2000, value:"test2"};
+	var payeeuname=null;
 	var doc;
 	
 
@@ -59,9 +59,9 @@ var postTransaction = function(req, res) {
 
 					pomopaytransactionsdb.get(payeruname , function(err, data) {
 						if(err)
-						{
+							{
 							console.log("error+++++++"+err);
-							payerresult = {status:404, value:err};
+							//payerresult = {status:404, value:err};
 							if(err.statusCode == 404 && err.reason == "missing")
 							{
 								console.log("inside if-first time insert");
@@ -70,11 +70,22 @@ var postTransaction = function(req, res) {
 
 									if(err)
 									{
-										payerresult = {status:500, value:err};
+										
 										res.status(500).send({"status":"FAILURE", "description":err});
 									}
 									else
 									{
+										pomopayaccountsdb.get(payeeaccid, function(err,data){
+											if(err){
+												payeeresult = {status:404, value:err};
+											}
+											else
+											{
+												payeeuname= data.username;
+												
+												console.log("name found"+payeeuname);
+											}
+										});
 										pomopaycustomersdb.get(payeeuname, function(err, data) {
 											if(err)
 											{
@@ -83,12 +94,13 @@ var postTransaction = function(req, res) {
 											}else
 											{
 												//doc=data;
-												console.log("data for payee is:"+data);
+												console.log("data for payee is:",data);
 												//console.log("data:"+JSON.stringfy(doc));
 												//console.log("account:"+data.accounts);
 												//console.log("account length is"+data.accounts.length);
 												if(data.accounts!==undefined && data.accounts.length>0){
-
+													
+													console.log("test");
 													var found = 0;
 													var myacc;
 													var index = 0;
@@ -133,7 +145,8 @@ var postTransaction = function(req, res) {
 																	});
 																}
 																else{
-																	payeeresult = {status:500, value:err};
+																	res.status(500).send({"status":"FAILURE", "description":err});
+																	
 																}
 															}
 
@@ -162,13 +175,15 @@ var postTransaction = function(req, res) {
 													}
 													else
 													{
-														payeeresult = {status:500, value:err};
+														res.status(500).send({"status":"FAILURE", "description":err});
+														//payeeresult = {status:500, value:err};
 													}
 												}
 
 												else
 												{
-													payeeresult = {status:500, value:err};
+													res.status(500).send({"status":"FAILURE", "description":err});
+													//payeeresult = {status:500, value:err};
 												}
 											}
 
@@ -184,19 +199,21 @@ var postTransaction = function(req, res) {
 								pomopaytransactionsdb.insert(doc,function(err, data) {
 
 									if(err)
-									{								
-										payerresult = {status:500, value:err};								
+									{
+										res.status(500).send({"status":"FAILURE", "description":err});
+																		
 									}
 									else
 									{
 										pomopayaccountsdb.get(payeeaccid, function(err,data){
 											if(err){
-												payeeresult = {status:404, value:err};
+												res.status(404).send({"status":"INVALIDDATA", "description":"Payer or Payee information is invalid"});
+												
 											}
 											else
 											{
 												payeeuname= data.username;
-												payeeresult = {status:200, value:data};
+												
 												console.log("name found"+payeeuname);
 											}
 										});
@@ -205,14 +222,19 @@ var postTransaction = function(req, res) {
 											if(err)
 											{
 												console.log("error is"+err);
-												payeeresult = {status:404, value:err};
+												res.status(404).send({"status":"INVALIDDATA", "description":"Payer or Payee information is invalid"});
+												
 											}else
 											{
-												//doc=data;
-												console.log("data for payee is:"+data);
+												//doc2=data;
+												//name=data.payeeuname;
+												//acc= data.accounts.accid;
+												//console.log("name for payee is:",name);
+												//console.log("acc for payee is:",acc);
 
 												if(data.accounts!==undefined && data.accounts.length>0){
-
+													
+													console.log("data.accounts found");
 													var found = 0;
 													var myacc;
 													var index = 0;
@@ -257,7 +279,8 @@ var postTransaction = function(req, res) {
 																	});
 																}
 																else{
-																	payeeresult = {status:500, value:err};
+																	res.status(500).send({"status":"FAILURE", "description":err});
+																	
 																}
 															}
 
@@ -285,13 +308,15 @@ var postTransaction = function(req, res) {
 													}
 													else
 													{
-														payeeresult = {status:500, value:err};
+														res.status(500).send({"status":"FAILURE", "description":err});
+														
 													}
 												}
 
 												else
 												{
-													payeeresult = {status:500, value:err};
+													res.status(500).send({"status":"FAILURE", "description":err});
+													
 												}
 											}
 
@@ -300,8 +325,150 @@ var postTransaction = function(req, res) {
 								});
 
 
-							}							
+							}	
+							
+							//res.status(200).send({status:"OK","description":"The payment posted succesfully"});
+
 						}
+						
+						else
+							{
+							
+
+							console.log("inside else:payerid is already present");
+							doc=data ;
+							doc.transactions.push({accountnumber: myacc.accountnumber,bankname: myacc.bankname,amount: amount, Type: 'Debit', remarks: remarks, date: Date() });
+							pomopaytransactionsdb.insert(doc,function(err, data) {
+
+								if(err)
+								{
+									res.status(500).send({"status":"FAILURE", "description":err});
+									//payerresult = {status:500, value:err};								
+								}
+								else
+								{
+									pomopayaccountsdb.get(payeeaccid, function(err,data){
+										if(err){
+											
+											payeeresult = {status:404, value:err};
+										}
+										else
+										{
+											payeeuname= data.username;
+											payeeresult = {status:200, value:data};
+											console.log("name found"+payeeuname);
+										}
+									});
+
+									pomopaycustomersdb.get(payeeuname, function(err, data) {
+										if(err)
+										{
+											console.log("error is"+err);
+											payeeresult = {status:404, value:err};
+										}else
+										{
+											//doc=data;
+											name= data.payeeuname;
+											acc= data.accounts;
+											console.log("name for payee is++++++++++:", name);
+											console.log("acc for payee is++++++++++:", acc);
+
+											if(data.accounts!==undefined && data.accounts.length>0){
+
+												var found = 0;
+												var myacc;
+												var index = 0;
+												for (index = 0; index < data.accounts.length; index++) {
+													console.log("index="+index);
+													console.log("accid:"+data.accounts[index].accid );
+													console.log("payeeid:"+payeeaccid);
+													//console.log("accid:"+data.accounts[index].accid );
+													if (data.accounts[index].accid == payeeaccid)
+													{
+														found = 1;
+														myacc=data.accounts[index];
+														console.log("We have found at index:" + index);
+														break;
+													} else {
+														console.log("We did not find at index:" + index);
+													}
+												}
+												if (found == 1) {
+
+													pomopaytransactionsdb.get(payeeuname , function(err, data) {
+
+														if(err)
+														{
+															console.log("error+++++++"+err);
+															payeeresult = {status:404, value:err};
+															if(err.statusCode == 404 && err.reason == "missing")
+															{
+																console.log("inside if-first time insert");
+																//  insert the incoming data into the DB
+																pomopaytransactionsdb.insert({ _id: payeeuname , "transactions": [{ accountnumber: myacc.accountnumber,bankname: myacc.bankname,amount: amount, Type: 'Debit', remarks: remarks, date: Date() }] }, function(err, data) {
+
+																	if(err)
+																	{
+																		res.status(500).send({"status":"FAILURE", "description":err});
+
+																	}
+																	else
+																	{
+																		payeeresult = {status:200, value:data};
+																	}
+																});
+															}
+															else{
+																res.status(500).send({"status":"FAILURE", "description":err});
+																//payeeresult = {status:500, value:err};
+															}
+														}
+
+
+														else
+														{
+															console.log("inside else:payeeid is already present");
+															doc=data ;
+
+															doc.transactions.push({accountnumber: myacc.accountnumber,bankname: myacc.bankname,amount: amount, Type: 'Debit', remarks: remarks, date: Date() });
+															pomopaytransactionsdb.insert(doc,function(err, data) {
+
+																if(err)
+																{
+																	res.status(500).send({"status":"FAILURE", "description":err});
+																}
+																else
+																{
+																	payeeresult = {status:200, value:data};
+																}
+															});
+														}
+													});
+
+												}
+												else
+												{
+													res.status(500).send({"status":"FAILURE", "description":err});
+													//payeeresult = {status:500, value:err};
+												}
+											}
+
+											else
+											{
+												res.status(500).send({"status":"FAILURE", "description":err});
+												//payeeresult = {status:500, value:err};
+											}
+										}
+
+									});
+								}
+							});
+
+
+						
+							}
+						
+						
 
 						res.status(200).send({status:"OK","description":"The payment posted succesfully"});
 
@@ -350,6 +517,7 @@ var getTransaction =  function(req, res) {
 
 	return;
 };
+
 
 
 exports.postTransaction = postTransaction;
