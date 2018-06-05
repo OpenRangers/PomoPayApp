@@ -42,6 +42,7 @@ var postTransaction = function(req, res) {
 																						, "type":"debit"
 																						, "date":new Date().toJSON()
 																						, "remarks":req.body.remarks};
+				console.log("Payer Transaction:",payerTransaction);
 				//Insert the data
 				pomopaytransactionsdb.insert(payerTransaction, function(err, payeraccinserteddata){
 					if(err){
